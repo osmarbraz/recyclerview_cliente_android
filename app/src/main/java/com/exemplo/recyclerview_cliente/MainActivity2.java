@@ -50,7 +50,6 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
     public void onClickBotaoVoltar(View v) {
-        //finish();
         setResult(RESULT_CANCELED);
         finish();
     }
