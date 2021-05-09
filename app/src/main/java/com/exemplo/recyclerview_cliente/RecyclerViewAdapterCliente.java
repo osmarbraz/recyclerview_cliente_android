@@ -185,11 +185,11 @@ public class RecyclerViewAdapterCliente extends RecyclerView.Adapter<RecyclerVie
 
     /**
      * Obtêm os dados na posição de clique
-     * @param id Posição do item.
+     * @param i Posição do item.
      * @return
      */
-    Cliente getItem(int id) {
-        return listaClientes.get(id);
+    Cliente getItem(int i) {
+        return listaClientes.get(i);
     }
 
     /**
