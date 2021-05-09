@@ -25,16 +25,16 @@ public class MainActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        //Associa os componentes aos atributos
+        // Associa os componentes aos atributos
         editTextClienteId = findViewById(R.id.editTextClienteId);
         editTextNome = findViewById(R.id.editTextNome);
         editTextCpf = findViewById(R.id.editTextCpf);
 
-        //Recupera o intent
+        // Recupera o intent
         if (getIntent().getExtras() != null  && getIntent().hasExtra("cliente")) {
-            //Recupera o valor
+            //R ecupera o valor
             Cliente cliente = (Cliente)getIntent().getExtras().get("cliente");
-            //Recupera a posição da alteração na lista.
+            // Recupera a posição da alteração na lista.
             posicao = getIntent().getExtras().getInt("posicao");
             //Coloca o valor na caixa de texto.
             editTextClienteId.setText(cliente.getClienteId());
@@ -47,8 +47,12 @@ public class MainActivity2 extends AppCompatActivity {
         }
     }
 
+    /**
+     * Evento do botão salvar
+     * @param v
+     */
     public void onClickBotaoSalvar(View v) {
-        //Retorna os dados do cliente
+        // Retorna os dados do cliente
         Intent intent = new Intent();
         //Se o id do cliente é vazio retorna cancelado
         if (editTextClienteId.getText().toString().equals("")) {
@@ -63,10 +67,14 @@ public class MainActivity2 extends AppCompatActivity {
             intent.putExtra("cliente", new Cliente(clienteId, nome, cpf));
             setResult(RESULT_OK, intent);
         }
-        //Fecha a janela
+        // Fecha a janela
         finish();
     }
 
+    /**
+     * Evento do botão voltar
+     * @param v
+     */
     public void onClickBotaoVoltar(View v) {
         setResult(RESULT_CANCELED);
         finish();

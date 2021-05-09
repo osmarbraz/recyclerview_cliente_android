@@ -25,8 +25,8 @@ public class RecyclerViewAdapterCliente extends RecyclerView.Adapter<RecyclerVie
 
     /**
      * construtor para passar os dados para o RecyclerView de Clientes
-     * @param context
-     * @param listaClientes
+     * @param context Activity que chamou a classe
+     * @param listaClientes Lista com os dados
      */
     RecyclerViewAdapterCliente(Context context, List<Cliente> listaClientes) {
         this.inflater = LayoutInflater.from(context);
@@ -59,7 +59,7 @@ public class RecyclerViewAdapterCliente extends RecyclerView.Adapter<RecyclerVie
     @NonNull
     @Override
     public ViewHolderCliente onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //Recupera o Activity do item do cliente
+        // Recupera o Activity do item do cliente
         View view = inflater.inflate(R.layout.item_cliente_view, parent, false);
         return new ViewHolderCliente(view);
     }
@@ -71,7 +71,9 @@ public class RecyclerViewAdapterCliente extends RecyclerView.Adapter<RecyclerVie
      */
     @Override
     public void onBindViewHolder(@NonNull ViewHolderCliente holder, int posicao) {
+        // Recupera o objeto selecionado no Recycler View
         Cliente cliente = listaClientes.get(posicao);
+        // Seta os valores do item no holder
         holder.textViewCienteId.setText(cliente.getClienteId());
         holder.textViewNome.setText(cliente.getNome());
         holder.textViewCpf.setText(cliente.getCpf());
@@ -93,7 +95,7 @@ public class RecyclerViewAdapterCliente extends RecyclerView.Adapter<RecyclerVie
 
     /**
      *  Retorna o total de linhas da lista
-     * @return
+     * @return Um inteiro
      */
     @Override
     public int getItemCount() {
@@ -105,8 +107,10 @@ public class RecyclerViewAdapterCliente extends RecyclerView.Adapter<RecyclerVie
      * @param novo Um cliente
      */
     public void adicionarCliente(Cliente novo){
-        listaClientes.add(novo); //adiciona o item na ultima posicao
-        notifyDataSetChanged();// notifica que meus items foi alterado
+        // Adiciona o item na ultima posicao
+        listaClientes.add(novo);
+        // Notifica as mudanças a Recycler View
+        notifyDataSetChanged();
     }
 
     /**
@@ -114,7 +118,9 @@ public class RecyclerViewAdapterCliente extends RecyclerView.Adapter<RecyclerVie
      * @param posicao Posição do cliente a ser excluído
      */
     public void removerCliente(int posicao){
-        listaClientes.remove(posicao); //remove o item na posicao desejada
+        // Remove o item na posicao desejada
+        listaClientes.remove(posicao);
+        // Notifica as mudanças a Recycler View
         notifyDataSetChanged();
     }
 
@@ -126,7 +132,7 @@ public class RecyclerViewAdapterCliente extends RecyclerView.Adapter<RecyclerVie
      */
     public void alterarClienteClick(int posicao, Cliente novo){
         Intent intent = new Intent(context, MainActivity2.class);
-        //Armazena o valor no intent
+        // Armazena o valor no intent
         intent.putExtra("posicao",posicao);
         intent.putExtra("cliente", getItem(posicao));
         // Abre a segunda tela
@@ -139,7 +145,9 @@ public class RecyclerViewAdapterCliente extends RecyclerView.Adapter<RecyclerVie
      * @param alterado O cliente para alteração
      */
     public void alterarCliente(int posicao, Cliente alterado){
-        listaClientes.set(posicao, alterado); //Atualiza o item na posição desejada
+        // Atualiza o item na posição desejada
+        listaClientes.set(posicao, alterado);
+        // Notifica as mudanças a Recycler View
         notifyDataSetChanged();
     }
 
