@@ -1,6 +1,8 @@
 package com.exemplo.recyclerview_cliente;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ public class RecyclerViewAdapterCliente extends RecyclerView.Adapter<RecyclerVie
     private List<Cliente> listaClientes;
     private LayoutInflater inflater;
     private ItemClickListener clickListener;
+    private Context context;
 
     /**
      * construtor para passar os dados para o RecyclerView de Clientes
@@ -28,6 +31,7 @@ public class RecyclerViewAdapterCliente extends RecyclerView.Adapter<RecyclerVie
     RecyclerViewAdapterCliente(Context context, List<Cliente> listaClientes) {
         this.inflater = LayoutInflater.from(context);
         this.listaClientes = listaClientes;
+        this.context = context;
     }
 
     /**
@@ -78,6 +82,13 @@ public class RecyclerViewAdapterCliente extends RecyclerView.Adapter<RecyclerVie
                 removerCliente(posicao);
             }
         });
+
+        holder.buttonAlterar.setOnClickListener(new ImageButton.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alterarClienteClick(posicao, cliente);
+            }
+        });
     }
 
     /**
@@ -107,6 +118,31 @@ public class RecyclerViewAdapterCliente extends RecyclerView.Adapter<RecyclerVie
         notifyDataSetChanged();
     }
 
+
+    /**
+     * Altera um cliente ma lista pela posição
+     * @param posicao Posição do clçiente a ser alterada
+     * @param novo Novo cliente a ser alterado
+     */
+    public void alterarClienteClick(int posicao, Cliente novo){
+        Intent intent = new Intent(context, MainActivity2.class);
+        //Armazena o valor no intent
+        intent.putExtra("posicao",posicao);
+        intent.putExtra("cliente", getItem(posicao));
+        // Abre a segunda tela
+        ((Activity) context).startActivityForResult(intent, 0);
+    }
+
+    /**
+     * Altera um cliente da lista pela posição
+     * @param posicao Posição do cliente a ser alterado
+     * @param alterado O cliente para alteração
+     */
+    public void alterarCliente(int posicao, Cliente alterado){
+        listaClientes.set(posicao, alterado); //Atualiza o item na posição desejada
+        notifyDataSetChanged();
+    }
+
     /**
      * Armazena e recicla as visualizações à medida que elas são deslizadas para fora da tela(cima e baixo)
      */
@@ -115,6 +151,7 @@ public class RecyclerViewAdapterCliente extends RecyclerView.Adapter<RecyclerVie
         TextView textViewNome;
         TextView textViewCpf;
         ImageButton buttonExcluir;
+        ImageButton buttonAlterar;
 
         /**
          * Construtor do ViewHolder de cliente.
@@ -126,6 +163,7 @@ public class RecyclerViewAdapterCliente extends RecyclerView.Adapter<RecyclerVie
             textViewNome = itemView.findViewById(R.id.textViewNome);
             textViewCpf = itemView.findViewById(R.id.textViewCpf);
             buttonExcluir  = itemView.findViewById(R.id.buttonExcluir);
+            buttonAlterar  = itemView.findViewById(R.id.buttonAlterar);
             itemView.setOnClickListener(this);
         }
 
@@ -160,5 +198,4 @@ public class RecyclerViewAdapterCliente extends RecyclerView.Adapter<RecyclerVie
     public interface ItemClickListener {
         void onItemClick(View view, int position);
     }
-
 }

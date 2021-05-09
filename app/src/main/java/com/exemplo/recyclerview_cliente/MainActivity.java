@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         recyclerView = findViewById(R.id.recyclerViewClientes);
         // Visualização em lista
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        // Visualização em grid com 2 colunas
         adapter = new RecyclerViewAdapterCliente(this, listaCliente);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
@@ -62,22 +61,38 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
      * @param v
      */
     public void onClickBotaoAdicionar(View v){
-        //Recupera o intennt para a tela2
+        // Recupera o intennt para a tela2
         Intent intent = new Intent(this, MainActivity2.class);
         // Abre a segunda tela
         startActivityForResult(intent, 0);
     }
 
     /**
-     * Evento do botão remover cliente
-     *
-     * @param v
+     * Verifica o resultado do retorno da chamada de um activity.
+     * @param requestCode Código da requisição
+     * @param resultCode Código de retorno
+     * @param intent Dados do intent
      */
-    public void onClickBotaoRemover(View v) {
-        // Retorna a posição da seleção
-        int position = recyclerView.getChildAdapterPosition(v);
-        // Apaga o elemento da lista da posição
-        adapter.removerCliente(position);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        //Executa no retorno das telas
+        super.onActivityResult(requestCode, resultCode, intent);
+        //Se o retorno foi Ok
+        if (resultCode == RESULT_OK) {
+            //Verifica se os dados foram preenchidos
+            if (intent.hasExtra("cliente")) {
+                int posicao = intent.getExtras().getInt("posicao");
+                Cliente cliente = (Cliente)intent.getExtras().get("cliente");
+                //Novo Cliente
+                if (posicao == -1) {
+                    //Adiciona os dados na lista
+                    adapter.adicionarCliente(cliente);
+                } else {
+                    //Altera os dados na lista
+                    adapter.alterarCliente(posicao, cliente);
+                }
+            }
+        }
     }
 
     /**
@@ -87,28 +102,5 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
     public void onClickBotaoFechar(View v){
 
         System.exit(0);
-    }
-
-    /**
-     * Verifica o resultado do retorno da chamada de um activity.
-     * @param requestCode Código da requisição
-     * @param resultCode Código de retorno
-     * @param data Dados do intent
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //Executa no retorno das telas
-        super.onActivityResult(requestCode, resultCode, data);
-        //Se o retorno foi Ok
-        if (resultCode == RESULT_OK) {
-            //Verifica se os dados foram preenchidos
-            if (data.hasExtra("clienteId") && data.hasExtra("nome") && data.hasExtra("cpf")) {
-                String clienteId = data.getExtras().getString("clienteId");
-                String nome = data.getExtras().getString("nome");
-                String cpf = data.getExtras().getString("cpf");
-                //Adiciona os dados na lsita
-                adapter.adicionarCliente(new Cliente(clienteId, nome, cpf));
-            }
-        }
     }
 }
