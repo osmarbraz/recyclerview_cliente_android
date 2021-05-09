@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
     private Button botaoAdicionar;
     private Button buttonFechar;
     private RecyclerViewAdapterCliente adapter;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         listaCliente.add(new Cliente("4","Luiz","534"));
 
         // configura o RecyclerView
-        RecyclerView recyclerView = findViewById(R.id.recyclerViewClientes);
+        recyclerView = findViewById(R.id.recyclerViewClientes);
         // Visualização em lista
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         // Visualização em grid com 2 colunas
@@ -68,10 +69,23 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
     }
 
     /**
+     * Evento do botão remover cliente
+     *
+     * @param v
+     */
+    public void onClickBotaoRemover(View v) {
+        // Retorna a posição da seleção
+        int position = recyclerView.getChildAdapterPosition(v);
+        // Apaga o elemento da lista da posição
+        adapter.removerCliente(position);
+    }
+
+    /**
      * Evento do botão fechar
      * @param v
      */
     public void onClickBotaoFechar(View v){
+
         System.exit(0);
     }
 
