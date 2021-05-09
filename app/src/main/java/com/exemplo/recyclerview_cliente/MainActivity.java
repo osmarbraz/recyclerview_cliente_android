@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         // Visualização em lista
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         // Visualização em grid com 2 colunas
-        //recyclerView.setLayoutManager(new GridLayoutManager(this,2));
         adapter = new RecyclerViewAdapterCliente(this, listaCliente);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
